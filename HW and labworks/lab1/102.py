@@ -1,3 +1,3 @@
 a=input()
 b=input()
-print(a,"***",b,sep="")
+print(a,b,sep="***")
