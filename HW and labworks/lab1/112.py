@@ -1,2 +1,2 @@
 a=input()
-print(a[2],a[3],a[4],sep="")
+print(a[2:5])
