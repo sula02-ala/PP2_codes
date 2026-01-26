@@ -4,4 +4,6 @@ if a==b:
     print("equal")
 else:
     if a>b:
-        print(a)     
+        print(a)
+    else:
+        print(b)        
