@@ -21,7 +21,7 @@ def say_yes():
     btn_no.config(state="disabled")
 
 root = tk.Tk()
-root.title("💝 14 февраля")
+root.title("Маленький подарочек")
 root.geometry("600x400")
 root.resizable(False, False)
 
