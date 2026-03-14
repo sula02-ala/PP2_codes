@@ -30,3 +30,15 @@
 
 # print(p.match(word))
 
+
+import json
+
+data = {
+    "students": [
+        {"name": "Ivan", "age": 20},
+        {"name": "Anna", "age": 22}
+    ]
+}
+
+for student in data["students"]:
+    print(student["age"])
