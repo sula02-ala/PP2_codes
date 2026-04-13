@@ -9,9 +9,11 @@ def search_pattern():
 
     cur.execute("SELECT * FROM search_phonebook(%s)", (pattern,))
     results = cur.fetchall()
-
-    for row in results:
-        print(row)
+    if not results:
+        print("No contacts found")
+    else:
+        for row in results:
+            print(row)
 
 
 def insert_or_update():
@@ -19,6 +21,15 @@ def insert_or_update():
     phone = input("Enter phone: ")
 
     cur.execute("CALL insert_or_update_user(%s, %s)", (name, phone))
+    conn.commit()
+
+    print("Done")
+
+def insert_many_users():
+    names = input("Enter names: ").split(",")
+    phones = input("Enter phones: ").split(",")
+
+    cur.execute("CALL insert_many(%s, %s)", (names, phones))
     conn.commit()
 
     print("Done")
@@ -55,9 +66,10 @@ def menu():
         print("\nPHONEBOOK (Functions & Procedures)")
         print("1. Search (function)")
         print("2. Insert or Update (procedure)")
-        print("3. Pagination (function)")
-        print("4. Delete (procedure)")
-        print("5. Show all")
+        print("3. Insert many users (procedure)")
+        print("4. Pagination (function)")
+        print("5. Delete (procedure)")
+        print("6. Show all")
         print("0. Exit")
 
         choice = input("Choose: ")
@@ -67,10 +79,12 @@ def menu():
         elif choice == "2":
             insert_or_update()
         elif choice == "3":
-            get_paginated()
+            insert_many_users()    
         elif choice == "4":
-            delete_user()
+            get_paginated()
         elif choice == "5":
+            delete_user()
+        elif choice == "6":
             show_all()
         elif choice == "0":
             break
