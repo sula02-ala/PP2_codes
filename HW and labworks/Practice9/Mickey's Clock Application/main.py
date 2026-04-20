@@ -4,7 +4,7 @@ import os
 
 pygame.init()
 
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((800, 600),pygame.RESIZABLE)
 pygame.display.set_caption("Mickey's Clock")
 
 clock = pygame.time.Clock()
@@ -28,9 +28,9 @@ def scale_image(image, target_width):
 
 
 
-hour_hand = scale_image(hand, 35)     # короткая
-minute_hand = scale_image(hand, 40)  # средняя
-second_hand = scale_image(hand, 45)  # длинная
+hour_hand = scale_image(hand, 35)    
+minute_hand = scale_image(hand, 40)  
+second_hand = scale_image(hand, 45)  
 
 
 
