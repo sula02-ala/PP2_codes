@@ -3,9 +3,10 @@ from ball import Ball
 
 pygame.init()
 
-width, height = 600, 400
-screen = pygame.display.set_mode((width, height))
+
+screen = pygame.display.set_mode((600, 400),pygame.RESIZABLE)
 pygame.display.set_caption("Moving Ball")
+width, height = screen.get_size()
 
 clock = pygame.time.Clock()
 
@@ -16,7 +17,13 @@ running = True
 while running:
     screen.fill((255, 255, 255))
 
+    
     for event in pygame.event.get():
+
+        if event.type == pygame.VIDEORESIZE:
+            width,height = event.w , event.h 
+            screen = pygame.display.set_mode((width, height),pygame.RESIZABLE)
+
         if event.type == pygame.QUIT:
             running = False
 
@@ -36,3 +43,5 @@ while running:
     clock.tick(60)
 
 pygame.quit()
+
+
