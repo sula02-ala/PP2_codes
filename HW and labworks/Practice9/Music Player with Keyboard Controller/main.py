@@ -4,7 +4,7 @@ import random
 
 pygame.init()
 
-screen = pygame.display.set_mode((600, 400))
+screen = pygame.display.set_mode((600, 400),pygame.RESIZABLE)
 pygame.display.set_caption("Music Player")
 
 font = pygame.font.SysFont(None, 36)
