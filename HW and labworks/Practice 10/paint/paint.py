@@ -8,7 +8,7 @@ pygame.display.set_caption("Paint")
 
 clock = pygame.time.Clock()
 
-# Canvas (ВАЖНО!)
+
 canvas = pygame.Surface((WIDTH, HEIGHT))
 canvas.fill((255, 255, 255))
 
@@ -23,10 +23,8 @@ font = pygame.font.SysFont(None, 24)
 running = True
 while running:
 
-    # Рисуем canvas (он сохраняет всё)
     screen.blit(canvas, (0, 0))
 
-    # Текст управления
     controls = [
         "1 - Draw",
         "2 - Rectangle",

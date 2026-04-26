@@ -3,7 +3,6 @@ import random
 
 pygame.init()
 
-# ================== НАСТРОЙКИ ==================
 WIDTH, HEIGHT = 400, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Racer")
@@ -11,7 +10,6 @@ pygame.display.set_caption("Racer")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 36)
 
-# ================== ФУНКЦИИ ==================
 
 def reset_game():
     """Сброс игры"""
@@ -34,8 +32,6 @@ def spawn_coin(coins):
     })
 
 
-# ================== СТАРТ ==================
-
 player, enemy, coins, coin_score, enemy_speed, game_over = reset_game()
 coin_timer = 0
 
@@ -43,45 +39,41 @@ running = True
 while running:
     screen.fill((30, 30, 30))
 
-    # ================== СОБЫТИЯ ==================
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-        # рестарт игры
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
                 player, enemy, coins, coin_score, enemy_speed, game_over = reset_game()
 
-    # ================== ЛОГИКА ==================
+
     if not game_over:
-        # управление игроком
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and player.x > 0:
             player.x -= 5
         if keys[pygame.K_RIGHT] and player.x < WIDTH - 40:
             player.x += 5
 
-        # движение врага
+
         enemy.y += enemy_speed
         if enemy.y > HEIGHT:
             enemy.y = -100
             enemy.x = random.randint(0, 360)
 
-        # ускорение врага в зависимости от монет
         enemy_speed = 5 + coin_score // 5
 
-        # спавн монет
         coin_timer += 1
         if coin_timer > 50:
             spawn_coin(coins)
             coin_timer = 0
 
-        # движение монет
         for coin in coins[:]:
             coin["rect"].y += enemy_speed
 
-            # столкновение с игроком
+
             if player.colliderect(coin["rect"]):
                 coin_score += coin["weight"]
                 coins.remove(coin)
@@ -89,19 +81,17 @@ while running:
             elif coin["rect"].y > HEIGHT:
                 coins.remove(coin)
 
-        # столкновение с врагом
+
         if player.colliderect(enemy):
             game_over = True
 
-    # ================== ОТРИСОВКА ==================
 
-    # игрок
     pygame.draw.rect(screen, (0, 255, 0), player)
 
-    # враг
+
     pygame.draw.rect(screen, (255, 0, 0), enemy)
 
-    # монеты
+
     for coin in coins:
         if coin["weight"] == 1:
             color = (255, 215, 0)   # золотая
@@ -112,15 +102,15 @@ while running:
 
         pygame.draw.circle(screen, color, coin["rect"].center, 10)
 
-    # текст очков
+
     score_text = font.render(f"Coins: {coin_score}", True, (255, 255, 255))
     screen.blit(score_text, (220, 10))
 
-    # подсказка
+
     hint_text = font.render("Press R to restart", True, (200, 200, 200))
     screen.blit(hint_text, (80, 560))
 
-    # GAME OVER
+
     if game_over:
         over_text = font.render("GAME OVER", True, (255, 0, 0))
         screen.blit(over_text, (120, 280))
