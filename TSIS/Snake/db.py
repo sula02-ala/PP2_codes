@@ -1,22 +1,24 @@
 import psycopg2
-from psycopg2.extras import RealDictCursor
+
 
 DB_CONFIG = {
     "dbname": "snake_db",
     "user": "postgres",
-    "password": "1234",
+    "password": "010709mss",
     "host": "localhost",
-    "port": "5432"
+    "port": 5432
 }
 
-def get_conn():
+
+def connect():
     try:
         return psycopg2.connect(**DB_CONFIG)
-    except:
+    except Exception as e:
+        print("DB ERROR:", e)
         return None
 
 def init_db():
-    conn = get_conn()
+    conn = connect()
     if not conn:
         return
     cur = conn.cursor()
@@ -43,11 +45,11 @@ def init_db():
     conn.close()
 
 def get_or_create_player(username):
-    conn = get_conn()
+    conn = connect()
     if not conn:
         return None
-
     cur = conn.cursor()
+
     cur.execute("SELECT id FROM players WHERE username=%s", (username,))
     row = cur.fetchone()
 
@@ -63,7 +65,7 @@ def get_or_create_player(username):
     return pid
 
 def save_score_db(username, score, level):
-    conn = get_conn()
+    conn = connect()
     if not conn:
         return False
 
@@ -74,7 +76,7 @@ def save_score_db(username, score, level):
     cur = conn.cursor()
     cur.execute("""
         INSERT INTO game_sessions(player_id, score, level_reached)
-        VALUES(%s, %s, %s)
+        VALUES (%s, %s, %s)
     """, (pid, score, level))
 
     conn.commit()
@@ -83,20 +85,20 @@ def save_score_db(username, score, level):
     return True
 
 def get_top_scores_db():
-    conn = get_conn()
+    conn = connect()
     if not conn:
         return []
 
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    cur = conn.cursor()
     cur.execute("""
-        SELECT p.username, g.score, g.level_reached, g.played_at
+        SELECT p.username, g.score
         FROM game_sessions g
         JOIN players p ON p.id = g.player_id
         ORDER BY g.score DESC
         LIMIT 10
     """)
-    rows = cur.fetchall()
 
+    data = cur.fetchall()
     cur.close()
     conn.close()
-    return rows
+    return data

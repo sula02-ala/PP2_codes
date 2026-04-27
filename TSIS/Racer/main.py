@@ -29,7 +29,7 @@ while running:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             running = False
-
+ # если мы в меню
         if e.type == pygame.MOUSEBUTTONDOWN:
             if state == "menu":
                 if play_btn.clicked(e.pos):

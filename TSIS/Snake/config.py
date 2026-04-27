@@ -1,7 +1,7 @@
 DB_CONFIG = {
     "dbname": "snake_db",
     "user": "postgres",
-    "password": "1234",
+    "password": "010709mss",
     "host": "localhost",
     "port": 5432
 }

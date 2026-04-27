@@ -62,7 +62,7 @@ buttons = [
     Button(940,10,50,30,"Text","text"),
 ]
 
-
+# кнопки толщины кисти
 brush_buttons = [
     Button(10,50,80,25,"Thin","thin"),
     Button(100,50,80,25,"Medium","medium"),
@@ -76,6 +76,7 @@ colors = [
     (255,165,0),(128,0,128),(0,128,128)
 ]
 
+# создаем прямоугольники для выбора цвета
 color_rects = []
 for i,c in enumerate(colors):
     rect = pygame.Rect(300+i*30,50,25,25)
@@ -188,7 +189,7 @@ while running:
                 tools.line(canvas,color,last,pos,brush)
                 last = pos
 
-
+# предпросмотр фигуры
     if drawing and start and mode not in ["pencil","text"]:
         temp = canvas.copy()
         pos = (pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]-100)
