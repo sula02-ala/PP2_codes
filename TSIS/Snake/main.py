@@ -143,8 +143,7 @@ while running:
 
         screen.blit(font.render(f"Score: {game.score}", True, (255,255,255)), (10,10))
         screen.blit(font.render(f"Level: {game.level}", True, (255,255,255)), (10,30))
-
-        # 🔥 БУСТЫ
+#бусты
         if hasattr(game, "power") and game.power:
             remaining = max(0, 5 - (pygame.time.get_ticks() - game.power_timer)//1000)
             screen.blit(font.render(f"Power: {game.power} ({remaining}s)", True, (0,255,255)), (10,60))
