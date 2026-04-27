@@ -134,15 +134,19 @@ def import_json():
 
 
 
-def add_phone():
+def add_contact():
     name = input("Enter contact name: ")
     phone = input("Enter phone: ")
+    email = input("Enter email: ")
     type_ = input("Enter type (home/work/mobile): ")
 
     try:
-        cur.execute("CALL add_phone(%s, %s, %s)", (name, phone, type_))
+        cur.execute(
+            "CALL add_contact(%s, %s, %s, %s)",
+            (name, phone, type_, email)
+        )
         conn.commit()
-        print(f"[OK] Phone added to {name}")
+        print(f"[OK] Contact {name} added")
     except Exception as e:
         print("[ERROR]", e)
 
@@ -186,7 +190,7 @@ def menu():
         print("4. Pagination")
         print("5. Export JSON")
         print("6. Import JSON")
-        print("7. Add phone")
+        print("7. Add contact")
         print("8. Move to group")
         print("9. Search all")
         print("0. Exit")
@@ -206,7 +210,7 @@ def menu():
         elif choice == "6":
             import_json()
         elif choice == "7":
-            add_phone()
+            add_contact()
         elif choice == "8":
             move_group()
         elif choice == "9":

@@ -6,7 +6,7 @@ pygame.init()
 
 W, H = 1000, 700
 screen = pygame.display.set_mode((W, H))
-pygame.display.set_caption("TSIS2 Paint PRO")
+pygame.display.set_caption("TSIS2 Paint")
 
 canvas = pygame.Surface((W, H-100))
 canvas.fill((255,255,255))
@@ -60,6 +60,7 @@ buttons = [
     Button(780,10,70,30,"Star","star"),
     Button(860,10,70,30,"Hex","hex"),
     Button(940,10,50,30,"Text","text"),
+    Button(600,50,50,25,"Fill","fill"),
 ]
 
 # кнопки толщины кисти
@@ -163,6 +164,10 @@ while running:
                     typing = True
                     text_pos = (pos[0], pos[1]-100)
                     text_input = ""
+
+                elif mode == "fill":
+                    tools.flood_fill(canvas, pos[0], pos[1]-100, color)
+
                 else:
                     drawing = True
                     start = (pos[0], pos[1]-100)

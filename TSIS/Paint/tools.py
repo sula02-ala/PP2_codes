@@ -3,25 +3,28 @@ import math
 
 
 def flood_fill(surface, x, y, new_color):
-    target = surface.get_at((x, y))
-    if target == new_color:
+    target_color = surface.get_at((x, y))
+
+    if target_color == new_color:
         return
 
-    w, h = surface.get_size()
     stack = [(x, y)]
 
     while stack:
         px, py = stack.pop()
 
-        if px < 0 or px >= w or py < 0 or py >= h:
+        if px < 0 or px >= surface.get_width() or py < 0 or py >= surface.get_height():
             continue
 
-        if surface.get_at((px, py)) != target:
+        if surface.get_at((px, py)) != target_color:
             continue
 
         surface.set_at((px, py), new_color)
 
-        stack += [(px+1,py),(px-1,py),(px,py+1),(px,py-1)]
+        stack.append((px+1, py))
+        stack.append((px-1, py))
+        stack.append((px, py+1))
+        stack.append((px, py-1))
 
 
 

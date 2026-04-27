@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((400,600))
 clock = pygame.time.Clock()
 
 settings = load_json("settings.json", {
-    "car_color": [0,255,0]
+    "car_color": [255,0,0]
 })
 
 leaderboard = load_json("leaderboard.json", [])
@@ -29,15 +29,17 @@ while running:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             running = False
- # если мы в меню
+
         if e.type == pygame.MOUSEBUTTONDOWN:
             if state == "menu":
                 if play_btn.clicked(e.pos):
                     game = RacerGame(settings)
                     state = "game"
-                if lb_btn.clicked(e.pos):
+
+                elif lb_btn.clicked(e.pos):
                     state = "leaderboard"
-                if quit_btn.clicked(e.pos):
+
+                elif quit_btn.clicked(e.pos):
                     running = False
 
             elif state == "leaderboard":
@@ -50,18 +52,21 @@ while running:
 
     elif state == "game":
         keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_LEFT]: game.player.x -= 5
-        if keys[pygame.K_RIGHT]: game.player.x += 5
-
         game.update(keys)
 
         if game.check_collision():
             leaderboard.append({
                 "score": game.score,
-                "distance": int(game.distance),
-                "coins": game.coin_count
+                "coins": game.coin_count,
+                "distance": int(game.distance)
             })
+
+            leaderboard = sorted(
+                leaderboard,
+                key=lambda x: x.get("score", 0),
+                reverse=True
+            )[:10]
+
             save_json("leaderboard.json", leaderboard)
             state = "menu"
 
@@ -69,19 +74,22 @@ while running:
 
     elif state == "leaderboard":
         font = pygame.font.SysFont(None, 28)
-        sorted_lb = sorted(leaderboard, key=lambda x: x["score"], reverse=True)
 
-        for i, s in enumerate(sorted_lb[:10]):
-            
+        if not leaderboard:
+            txt = font.render("No scores yet", True, (200,200,200))
+            screen.blit(txt, (120,250))
+
+        for i, s in enumerate(leaderboard):
+
             score = s.get("score", 0)
             coins = s.get("coins", 0)
             dist = s.get("distance", 0)
 
             txt = font.render(
                 f"{i+1}. Score:{score} Coins:{coins} Dist:{dist}",
-                        True, (255,255,255)
+                True, (255,255,255)
             )
-            screen.blit(txt, (20, 50+i*30))
+            screen.blit(txt, (20, 50 + i*30))
 
     pygame.display.update()
     clock.tick(60)
